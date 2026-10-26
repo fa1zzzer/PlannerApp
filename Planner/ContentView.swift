@@ -89,7 +89,7 @@ struct ContentView: View {
     
     var body: some View {
         ZStack {
-            WebView(url: plannerURL, isLoading: , canGoBack: , errorMessage: )
+            WebView(url: plannerURL, isLoading: $isLoading, canGoBack: $canGoBack, errorMessage: $errorMessage)
                 .edgesIgnoringSafeArea(.bottom)
             
             if let error = errorMessage {
