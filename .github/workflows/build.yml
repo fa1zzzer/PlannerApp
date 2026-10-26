@@ -1,0 +1,36 @@
+name: Build Planner IPA
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        run: xcodegen generate
+
+      - name: Build unsigned .app
+        run: |
+          xcodebuild             -project Planner.xcodeproj             -scheme Planner             -configuration Release             -sdk iphoneos             -derivedDataPath build             CODE_SIGNING_ALLOWED=NO             CODE_SIGNING_REQUIRED=NO             CODE_SIGN_IDENTITY=""             build
+
+      - name: Package .ipa
+        run: |
+          mkdir -p Payload
+          cp -R build/Build/Products/Release-iphoneos/Planner.app Payload/
+          zip -r Planner.ipa Payload
+
+      - name: Upload Planner IPA Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Planner-ipa
+          path: Planner.ipa
+          retention-days: 7
