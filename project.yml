@@ -17,9 +17,11 @@ targets:
       path: Planner/Info.plist
       properties:
         CFBundleDisplayName: Планер
+        CFBundleIconName: AppIcon
         UILaunchScreen: {}
         NSAppTransportSecurity:
           NSAllowsArbitraryLoads: true
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.fazz.planner
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
